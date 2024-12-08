@@ -9,33 +9,48 @@ import model.Task;
  * @author wb2c0
  */
 public class Dashboard extends javax.swing.JFrame {
-    
+
     Listener listener;
     DefaultTableModel tmodel;
-    
+    DefaultTableModel tmodel2;
+
     public Dashboard() {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+        init();
+    }
+
+    private void init() {
         this.tmodel = (DefaultTableModel) taskTable.getModel();
         this.tmodel.setRowCount(0);
         this.taskTable.setModel(tmodel);
+
+        this.tmodel2 = (DefaultTableModel) taskTable2.getModel();
+        this.tmodel2.setRowCount(0);
+        this.taskTable2.setModel(tmodel2);
     }
-    
+
     public void setListener(Listener listener) {
         this.listener = listener;
     }
-    
+
     public void clearTable() {
         this.tmodel.setRowCount(0);
+        this.tmodel2.setRowCount(0);
+
     }
-    
+
     public void addTask(Task task) {
         Object[] tmp = {task.getId(), task.getTask(), task.getDate(), task.getTime()};
         this.tmodel.addRow(tmp);
         this.tmodel.fireTableDataChanged();
+
+        Object[] tmp2 = {task.getId(), task.getTask(), task.getDate(), task.getTime(), task.getStatus()};
+        this.tmodel2.addRow(tmp2);
+        this.tmodel2.fireTableDataChanged();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -47,11 +62,10 @@ public class Dashboard extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel5 = new javax.swing.JPanel();
-        jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        taskTable2 = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         taskTable = new javax.swing.JTable();
@@ -124,9 +138,12 @@ public class Dashboard extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
-        jButton9.setText("Select");
-
         jButton10.setText("Do");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
         jButton11.setText("Done");
         jButton11.addActionListener(new java.awt.event.ActionListener() {
@@ -135,18 +152,18 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        taskTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Task", "Date", "Time", "Status"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(taskTable2);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -156,8 +173,6 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGap(34, 34, 34)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addComponent(jButton9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton11))
@@ -170,8 +185,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(133, Short.MAX_VALUE))
@@ -202,6 +216,11 @@ public class Dashboard extends javax.swing.JFrame {
         });
 
         jButton7.setText("Edit");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         selectDate.setText("Select");
         selectDate.addActionListener(new java.awt.event.ActionListener() {
@@ -397,13 +416,23 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_selectDateActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        
+        int id = (int) taskTable2.getValueAt(taskTable2.getSelectedRow(), 0);
+        listener.doneAtion(id);
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         int id = (int) taskTable.getValueAt(taskTable.getSelectedRow(), 0);
         this.listener.delete(id);
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        int id = (int) taskTable.getValueAt(taskTable.getSelectedRow(), 0);
+        this.listener.gotoEdit(id);    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        int id = (int) taskTable2.getValueAt(taskTable2.getSelectedRow(), 0);
+        listener.doAction(id);
+    }//GEN-LAST:event_jButton10ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -416,7 +445,6 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -429,12 +457,12 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JButton selectDate;
     private javax.swing.JComboBox<String> taskCategory;
     private com.github.lgooddatepicker.components.DatePicker taskDate;
     private javax.swing.JTextField taskName;
     private javax.swing.JTable taskTable;
+    private javax.swing.JTable taskTable2;
     private com.github.lgooddatepicker.components.TimePicker taskTime;
     // End of variables declaration//GEN-END:variables
 }

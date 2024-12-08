@@ -1,6 +1,7 @@
 package taskflow;
 
 import Form.Dashboard;
+import Form.EditForm;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.LinkedList;
@@ -34,19 +35,44 @@ public class Manager implements Listener {
     }
 
     @Override
-    public void gotoAdd() {
+    public void doAction(int id) {
+        Task task = handler.get(id);
+
+        if (task != null) {
+            task.setStatus("ongoing");
+            handler.edit(task);
+            this.updateTable(handler.getTasks());
+
+        }
     }
 
     @Override
-    public void gotoEdit() {
+    public void gotoEdit(int id) {
+        Task task = handler.get(id);
+
+        if (task != null) {
+            new EditForm(dashboard, true, task, this).setVisible(true);
+        }
+
     }
 
     @Override
-    public void gotoView() {
+    public void doneAtion(int id) {
+         Task task = handler.get(id);
+
+        if (task != null) {
+            task.setStatus("complete");
+            handler.edit(task);
+            this.updateTable(handler.getTasks());
+
+        }
     }
 
     @Override
-    public void editTask(int id) {
+    public void editTask(Task task) {
+        handler.edit(task);
+        this.updateTable(handler.getTasks());
+
     }
 
     @Override

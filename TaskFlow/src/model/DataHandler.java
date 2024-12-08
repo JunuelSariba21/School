@@ -40,6 +40,9 @@ public class DataHandler {
         return null;
     }
 
+    public void edit(Task task) {
+        this.tasks.set(this.tasks.indexOf(task), task);
+    }
     
     public void delete(int id) {
         Task task = get(id);

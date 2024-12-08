@@ -2,6 +2,7 @@ package listener;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import model.Task;
 
 /**
  *
@@ -9,15 +10,15 @@ import java.time.LocalTime;
  */
 public interface Listener {
     
-    void gotoAdd();
+    void doAction(int id);
     
-    void gotoEdit();
+    void gotoEdit(int id);
     
-    void gotoView();
+    void doneAtion(int id);
     
     void addTask(String task, String category, LocalDate date, LocalTime time);
     
-    void editTask(int id);
+    void editTask(Task task);
     
     void delete(int id);
     

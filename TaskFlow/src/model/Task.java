@@ -14,25 +14,42 @@ public class Task {
     private String category;
     private LocalDate date;
     private LocalTime time;
-    private boolean isDone = false;
+    private String status;
     
     public Task(String task, String category, LocalDate date, LocalTime time) {
         this.task = task;
         this.category = category;
         this.date = date;
         this.time = time;
+        this.status = "pending";
     }
     
     public void setId(int id) {
         this.id = id;
     }
     
-    public void markAsDone() {
-        this.isDone = true;
+    public void setTask(String task) {
+        this.task = task;
     }
     
-    public boolean getIsDone() {
-        return this.isDone;
+    public void setCategory(String category) {
+        this.category = category;
+    }
+    
+    public void setDate(LocalDate date) {
+        this.date =date;
+    }
+    
+    public void setTime(LocalTime time) {
+        this.time = time;
+    }
+    
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
+    public String getStatus() {
+        return this.status;
     }
     
     public int getId() {
