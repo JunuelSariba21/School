@@ -14,6 +14,7 @@ public class Task {
     private String category;
     private LocalDate date;
     private LocalTime time;
+    private boolean isDone = false;
     
     public Task(String task, String category, LocalDate date, LocalTime time) {
         this.task = task;
@@ -24,6 +25,14 @@ public class Task {
     
     public void setId(int id) {
         this.id = id;
+    }
+    
+    public void markAsDone() {
+        this.isDone = true;
+    }
+    
+    public boolean getIsDone() {
+        return this.isDone;
     }
     
     public int getId() {

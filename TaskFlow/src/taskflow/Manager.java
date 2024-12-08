@@ -13,12 +13,11 @@ import model.Task;
  *
  * @author wb2c0
  */
-public class Manager implements Listener{
-    
+public class Manager implements Listener {
+
     Dashboard dashboard;
     DataHandler handler;
-    
-    
+
     public Manager(Dashboard dashboard) {
         this.handler = new DataHandler();
         this.dashboard = dashboard;
@@ -49,26 +48,34 @@ public class Manager implements Listener{
     @Override
     public void editTask(int id) {
     }
-    
+
     @Override
     public void filterDate(LocalDate date) {
         this.updateTable(handler.filterTask(date));
     }
-    
+
+    @Override
+    public void delete(int id) {
+        handler.delete(id);
+        this.updateTable(handler.getTasks());
+
+    }
+
     private void updateTable(LinkedList<Task> tasks) {
         this.dashboard.clearTable();
         for (Task task : tasks) {
             dashboard.addTask(task);
         }
     }
-    
+
     private boolean validateInput(String task, String category, LocalDate date, LocalTime time) {
-        
+
         if (task.strip().length() == 0 || category.strip().length() == 0) {
             JOptionPane.showMessageDialog(dashboard, "Task Cannot be empty");
             return false;
         }
-        
+
         return true;
     }
+
 }

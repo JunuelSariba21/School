@@ -2,6 +2,7 @@ package model;
 
 import java.time.LocalDate;
 import java.util.LinkedList;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -25,13 +26,26 @@ public class DataHandler {
     }
 
     public LinkedList<Task> filterTask(LocalDate date) {
-        LinkedList<Task> filtered = new LinkedList<>();
-        for (Task task : this.tasks) {
-            if (task.getDate().equals(date)) {
-                filtered.add(task);
+        return this.tasks.stream()
+                .filter(task -> task.getDate().equals(date))
+                .collect(Collectors.toCollection(LinkedList::new));
+    }
+    
+    public Task get(int id) {
+        for (Task task : tasks) {
+            if (task.getId() == id) {
+                return task;
             }
         }
-        return filtered;
+        return null;
     }
 
+    
+    public void delete(int id) {
+        Task task = get(id);
+        
+        if (task != null) {
+            this.tasks.remove(task);
+        }
+    }
 }

@@ -19,6 +19,8 @@ public interface Listener {
     
     void editTask(int id);
     
+    void delete(int id);
+    
     void filterDate(LocalDate date);
     
 }
